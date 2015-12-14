@@ -3,6 +3,7 @@
 
 //#define MODE 2
 
+// Full length day of week names:
 char dows[][10] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 int MODE = 1;
 unsigned long NextTime = 0;
