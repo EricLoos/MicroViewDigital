@@ -3,8 +3,12 @@
 
 //#define MODE 2
 
+// get rid of the warning:
+// warning: deprecated conversion from string constant to ‘char*’
+#pragma GCC diagnostic ignored "-Wwrite-strings"
+
 // Full length day of week names:
-char dows[][10] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+const char dows[][10] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 int MODE = 1;
 unsigned long NextTime = 0;
 
@@ -86,30 +90,48 @@ void loop() {
   //uView.print(s);
   prints();
   if ( MODE == 2 ) {
+    int y = 9, yi = 9;
     sprintf(s, "%s", dows[weekday() - 1]);
-    uView.setCursor(0, 12);
+    uView.setCursor(0, y);
+    y += yi;
     //uView.print(s);
     prints();
     sprintf(s, "%2d/%02d/%02d", month(), day(), year() % 100);
-    uView.setCursor(0, 24);
+    int x = 6*9;
+    uView.setCursor(0, y);
     //uView.print(s);
     prints();
+    y=0;
+    for(int ii=0; ii<5; ii++) {
+      
+      uView.setCursor(x, y);
+      y+=yi;
+      uView.print(ii+1);
+      /*
+      y+=yi;
+      uView.setCursor(x, y);
+      uView.print("5"); 
+      y+=yi;
+      uView.setCursor(0, y);
+      uView.print("6");*/
+    }
   }
 
   uView.display();
 }
 
-void prints() {
-  /*
-    for(int i=0; i<strlen(s); i++) {
-    if(s[i]=='0')
-      s[i]='O';
-    }
-  */
+void prints() { /*
+  for(int i=0; i<strlen(s); i++) {
+  if(s[i]=='0')
+    s[i]=' ';
+    DrawOval(i);
+  }*/
   uView.print(s);
 }
 
-
+void DrawOval( int v ) {
+  //uView.circle();
+}
 
 
 // sample input: date = "Dec 26 2009", time = "12:34:56"
