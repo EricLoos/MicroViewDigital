@@ -3,8 +3,8 @@
 
 //#define MODE 2
 
-// get rid of the warning:
-// warning: deprecated conversion from string constant to ‘char*’
+// Get rid of the this message every time:
+// Warning: deprecated conversion from string constant to ‘char*’
 #pragma GCC diagnostic ignored "-Wwrite-strings"
 
 // Full length day of week names:
