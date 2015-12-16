@@ -35,14 +35,52 @@ void setup() {
 }
 
 char s[10];
+char serin[20];
+int serPos =0;
 int testit = 0;
+int inByte = 0;
+char cmd = 0;
+int v = 0;
 
+void doSerial() {
+  if(Serial.available()>0){
+    inByte = Serial.read();
+    switch(inByte) {
+
+      case 13:
+      case 10:
+        serin[serPos] = 0;
+        v = atoi(serin);
+        serPos=0;
+        Serial.print(cmd);
+        Serial.print(" = ");
+        Serial.println(v);
+        break;
+
+      case 'd':
+      case 'D':
+        cmd = inByte;
+        break;
+
+      case 'a':
+      case 'A':
+        cmd = inByte;
+        break;
+        
+      default:
+        serin[serPos] = inByte;
+        serPos++;
+        break;
+    }
+  }
+}
 void loop() {
+  doSerial();
   if (millis() < NextTime) {
     uView.clear(PAGE);
     uView.setFontType(2);
     uView.setCursor(0, 0);
-    uView.print("12-45");
+    uView.print("12345");
     uView.setCursor(0, 20);
     //uView.print("23:59");
     //uView.setCursor(0,30);
