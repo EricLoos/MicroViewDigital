@@ -10,7 +10,12 @@
 // Full length day of week names:
 const char dows[][10] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 int MODE = 1;
-unsigned long NextTime = 0;
+unsigned long NextTime = 0, t;
+
+unsigned long convTime(int y, int m, int d ) {
+  //return time(y,m,d,0,0,0);
+}
+
 
 void setup() {
   // put your setup code here, to run once:
@@ -32,29 +37,43 @@ void setup() {
     delay(2000);
   */
   NextTime = millis() + 30000;
+  t = convTime(2015, 1, 1);
 }
 
 char s[10];
 char serin[20];
-int serPos =0;
+int serPos = 0;
 int testit = 0;
 int inByte = 0;
 char cmd = 0;
 int v = 0;
+unsigned long l = 0L;
 
+void SetTime(unsigned long time) {
+  setTime(time);
+}
 void doSerial() {
-  if(Serial.available()>0){
+  if (Serial.available() > 0) {
     inByte = Serial.read();
-    switch(inByte) {
+    switch (inByte) {
 
       case 13:
       case 10:
+        v = 0; l = 0L;
         serin[serPos] = 0;
-        v = atoi(serin);
-        serPos=0;
+        if (cmd == 'a' || cmd == 'A' || cmd == 'd' || cmd == 'D' )
+          v = atoi(serin);
+        if (cmd == 't' || cmd == 'T' ) {
+          l = atol(serin);
+          SetTime(l);
+        }
+        serPos = 0;
+        cmd = 0;
         Serial.print(cmd);
         Serial.print(" = ");
-        Serial.println(v);
+        Serial.print(v);
+        Serial.print(" ~ ");
+        Serial.println(l);
         break;
 
       case 'd':
@@ -66,7 +85,12 @@ void doSerial() {
       case 'A':
         cmd = inByte;
         break;
-        
+
+      case 't':
+      case 'T':
+        cmd = inByte;
+        break;
+
       default:
         serin[serPos] = inByte;
         serPos++;
@@ -135,35 +159,36 @@ void loop() {
     //uView.print(s);
     prints();
     sprintf(s, "%2d/%02d/%02d", month(), day(), year() % 100);
-    int x = 6*9;
+    int x = 6 * 9;
     uView.setCursor(0, y);
     //uView.print(s);
     prints();
-    y=0;
-    for(int ii=0; ii<5; ii++) {
-      
+    y = 0;
+    for (int ii = 0; ii < 5; ii++) {
+
       uView.setCursor(x, y);
-      y+=yi;
-      uView.print(ii+1);
+      y += yi;
+      uView.print(ii + 1);
       /*
-      y+=yi;
-      uView.setCursor(x, y);
-      uView.print("5"); 
-      y+=yi;
-      uView.setCursor(0, y);
-      uView.print("6");*/
+        y+=yi;
+        uView.setCursor(x, y);
+        uView.print("5");
+        y+=yi;
+        uView.setCursor(0, y);
+        uView.print("6");*/
     }
   }
 
   uView.display();
 }
 
-void prints() { /*
-  for(int i=0; i<strlen(s); i++) {
-  if(s[i]=='0')
-    s[i]=' ';
-    DrawOval(i);
-  }*/
+void prints() {
+  /*
+    for(int i=0; i<strlen(s); i++) {
+    if(s[i]=='0')
+      s[i]=' ';
+      DrawOval(i);
+    }*/
   uView.print(s);
 }
 
