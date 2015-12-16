@@ -61,8 +61,9 @@ void doSerial() {
       case 10:
         v = 0; l = 0L;
         serin[serPos] = 0;
-        if (cmd == 'a' || cmd == 'A' || cmd == 'd' || cmd == 'D' )
+        if (cmd == 'a' || cmd == 'A' || cmd == 'd' || cmd == 'D' ) {
           v = atoi(serin);
+        }
         if (cmd == 't' || cmd == 'T' ) {
           l = atol(serin);
           SetTime(l);
