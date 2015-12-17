@@ -46,7 +46,7 @@ int serPos = 0;
 int testit = 0;
 int inByte = 0;
 char cmd = 0;
-int v = 0;
+int v = 0, docs = 0, apr = 0;
 unsigned long l = 0L;
 
 void SetTime(unsigned long time) {
@@ -61,8 +61,13 @@ void doSerial() {
       case 10:
         v = 0; l = 0L;
         serin[serPos] = 0;
-        if (cmd == 'a' || cmd == 'A' || cmd == 'd' || cmd == 'D' ) {
+        if (cmd == 'a' || cmd == 'A' )  {
           v = atoi(serin);
+          apr = v;
+        }
+        if( cmd == 'd' || cmd == 'D' ) {
+          v = atoi(serin);
+          docs = v;
         }
         if (cmd == 't' || cmd == 'T' ) {
           l = atol(serin);
